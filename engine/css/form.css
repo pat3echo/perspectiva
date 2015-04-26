@@ -1,0 +1,88 @@
+/*Use in media query
+.form-group{
+  display: inline-block;
+  width: 45%;
+  margin-left: 10px;
+  margin-right: 10px;
+}*/
+input:focus:invalid,
+textarea:focus:invalid,
+select:focus:invalid {
+  color: #b94a48;
+  border-color: #ee5f5b;
+}
+
+input:focus:invalid:focus,
+textarea:focus:invalid:focus,
+select:focus:invalid:focus {
+  border-color: #e9322d;
+  -webkit-box-shadow: 0 0 6px #f8b9b7;
+     -moz-box-shadow: 0 0 6px #f8b9b7;
+          box-shadow: 0 0 6px #f8b9b7;
+}
+
+
+#refresh-datatable,
+#inline-edit-form-wrapper{
+	display:none;
+}
+#notification-container{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 25%;
+	z-index:999999999;
+}
+
+/*Virtual Progress Bsr*/
+#generate-report-progress-bar{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	left: 0;
+	z-index:9999999999;
+}
+
+#notification-container{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 25%;
+	z-index:999999999;
+}
+#virtual-progress-bar{
+	height:4px;
+}
+
+.site_users006-row{
+	clear:both;
+	float:none !important;
+}
+/*AJAX Upload Container*/
+.qq-uploader{
+	word-wrap: break-word;
+}
+.qq-upload-list{
+	padding-left:10px;
+}
+.qq-upload-list li{
+	line-height:1.5;
+}
+.qq-upload-list span{
+	margin-right:5px;
+}
+
+.header .navbar-brand img.img-responsive{
+    margin-left:40px;
+}
+.page-sidebar-menu{
+    position:relative;
+    margin-top:25px;
+}
+
+.sidebar-toggler {
+  position: absolute;
+  top: -51;
+  left: 0;
+  z-index: 9999;
+}

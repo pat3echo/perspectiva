@@ -1,0 +1,194 @@
+@page { margin-top:0.75cm; margin-bottom:0.75cm; margin-right:0.25cm; margin-left:0.25cm;} body { font-family:arial; margin:5pt 2pt; padding:0.1cm;} #dynamic thead{background-color:#f7f7f7;line-height:18pt;text-align:left;}#dynamic thead th{font-size:8.5pt;padding:3pt 1pt;text-align:left;} #dynamic tr{font-size:9.5pt;} #dynamic tr.even{background-color:#fcfcfc;}.s-h-b{width:65%;border:1px solid #eeeeee;margin-bottom:30pt;}#dynamic table{border:1px solid #eeeeee; overflow:hidden;}.s-h{width:auto;background-color:#f7f7f7;font-size:10pt;font-weight:bold;padding:3pt;}.s-b{width:auto;font-size:9pt;}.s-c-1{font-weight:bold;padding-left:3pt;}.s-c-2{padding-left:3pt;}.clear{clear:both;}
+
+
+div#letter-footer {
+  position: fixed;
+  text-align:center;
+  width: 100%;
+  border: 0px solid #888;
+  overflow: hidden;
+  padding: 0.1cm;
+  bottom: 0cm;
+  left: 0cm;
+  border-top-width: 1px;
+  height: 1cm;
+  color:#aaa;
+}
+
+#watermark{
+	width:100%;
+	position:fixed;
+	height:100%;
+	background:url(../images/watermark.png) center center no-repeat;
+}
+
+#watermark-none{
+	width:100%;
+	position:fixed;
+	height:100%;
+}
+
+#watermark-none #report-authentication-id,
+#watermark #report-authentication-id{
+	position:fixed;
+	bottom:0;
+}
+
+#report-authentication-id{
+	color:#BAFDC5;
+	font-size:10pt;
+	text-align:left;
+	line-height:8pt;
+	font-style:italic;
+}
+@media print{
+	.no-print{
+		display:none;
+	}
+}
+
+/*Details Fieldset */
+.gts-box fieldset{
+	border: 1px solid #ddd;
+	margin: 20px 0;
+	padding-left: 10px;
+}
+.gts-box fieldset legend{
+	font-weight:bold;
+}
+.gts-box fieldset span.value{
+	width:20%;
+	display:inline-block;
+	line-height:1.8;
+}
+.gts-box fieldset span.value-double{
+	width:40%;
+	display:inline-block;
+	line-height:1.8;
+}
+.gts-box fieldset span.value-1{
+	display:inline-block;
+	line-height:1.8;
+}
+
+.gts-box fieldset div.header-element{
+	font-weight:bold;
+	margin-left:40px;
+	margin-top:15px;
+}
+
+.gts-box fieldset div.header-element span{
+	width:20%;
+	display:inline-block;
+}
+
+.gts-box table{
+	width:100%;
+}
+.gts-box table .serial{
+	width:3%;
+}
+.gts-box table th.width-1{
+	width:20%;
+	text-align:left;
+}
+.gts-box table th.width-2{
+	text-align:left;
+}
+
+
+/*Total Row*/
+.total-row{
+	font-size:0.9em;
+	font-weight:bold;
+	font-style:italic;
+}
+/*Data Tables - Special Row Formatting*/
+
+.special-row-formatting{
+	font-weight:bold;
+	font-size:0.9em;
+}
+.special-row-formatting-1{
+	font-weight:bold;
+	font-size:0.9em;
+}
+.special-row-formatting-not-in-budget{
+	font-weight:bold;
+	font-size:0.8em;
+	color:#ff0000;
+	text-transform:uppercase;
+}
+
+.total-budget-spending-class-style{
+	font-size:0.9em;
+	color:#040;
+}
+.total-budget-style{
+	font-size:0.9em;
+	color:#004;
+}
+/*Details Drop Down View*/
+.details-section-container{
+	width: 50%;
+	position: relative;
+	font-size: 1em;
+	display: inline-block;
+}
+.details-section-container h4{
+	font-size:0.9em;
+	margin-bottom:0.2em;
+	width:100%;
+	position:relative;
+}
+
+/*Global Gas Market*/
+.ui-table-reflow.ui-responsive td .ui-table-cell-label, .ui-table-reflow.ui-responsive th .ui-table-cell-label {
+	display: none;
+}
+
+#dynamic table thead th{
+	background-color:#f7f7f7;
+	border: 1px solid #000;
+}
+
+/*Projects Weekly Reports*/
+#projects-report-container{
+	font-family:arial;
+	clear:both;
+}
+	#projects-report-container legend{
+		font-weight:bold;
+	}
+	#projects-report-container fieldset{
+		margin-bottom:10px;
+		position:relative;
+	}
+	#projects-report-container fieldset.project-description{
+		
+	}
+	#projects-report-container fieldset.project-status-comment{
+		
+	}
+	#projects-report-container fieldset.weekly-report-delivery-schedule{
+		
+	}
+	#projects-report-container fieldset.incremental-volume-capacity{
+		
+	}
+	#projects-report-container ol li{
+		margin-bottom:20px;
+	}
+	#projects-report-container fieldset table{
+		width:100%;
+		margin-top:5px;
+	}
+	#projects-report-container fieldset table th,
+	#projects-report-container fieldset table td{
+		padding:4px 6px;
+	}
+.numeric-data{
+	display:block;
+	text-align:right;
+}
+/*Projects Weekly Reports*/

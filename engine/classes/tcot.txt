@@ -1,0 +1,7 @@
+when u update billing address in checkout process, address does not update in pay now form: option reload browser == for newly registered users without updated address
+address form fields not dynamic == on checkout page
+guest checkout inactive == saves, but nothing happens afterwards
+guest checkout + shipping address = conflict
+*invoice page has billing address only
+
+not signed in + but set-up shipping addr = sign in | 

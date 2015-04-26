@@ -1,0 +1,18 @@
+#message-content{
+	background:#fff;
+	min-height:80%;
+	padding:5%;
+	box-shadow:2px 2px 6px #444;
+}
+#message-content-header{
+	text-align:center;
+	width:100%;
+	font-size:20pt;
+	color:#56A00E;
+	border-bottom:1px dashed #aaa;
+}
+#message-content-body{
+	font-size:11pt;
+	padding-top:10px;
+	line-height:1.5;
+}

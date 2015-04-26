@@ -1,0 +1,36 @@
+/* here you can put your own css to customize and override the theme */
+
+#notification-container{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 25%;
+	z-index:999999999;
+}
+
+/*Virtual Progress Bsr*/
+#generate-report-progress-bar{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	left: 0;
+	z-index:9999999999;
+}
+
+#notification-container{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 25%;
+	z-index:999999999;
+}
+#virtual-progress-bar{
+	height:4px;
+}
+.form-gen-element-image-upload-preview{
+  max-height: 68px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 4px;
+}
