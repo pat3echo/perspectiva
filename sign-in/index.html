@@ -127,11 +127,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                 <label>Date:</label> <span class="visitor-value" data-name="approved_start_date_time" data-type="text">12-FEB-2015</span>
                             </div>
                             
-                           <div>
+                           <div class="optional-value">
                                 <label>Whom to Visit:</label> <strong class="visitor-value" data-name="whom_to_see" data-type="text">Rufai Jalal</strong>
                             </div>
-                           <div>
+                           <div class="optional-value">
                                 <label>Reason of Visit:</label> <span class="visitor-value" data-name="reason_for_visit" data-type="text">Official</span>
+                            </div>
+                           <div class="optional-value">
+                                <label>Branch:</label> <span class="visitor-value" data-name="branch_office" data-type="text">Ikoyi Branch</span>
                             </div>
                             
                            <div>
@@ -153,7 +156,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                   <th class="hidden-xs"><i class="icon-question-sign"></i> Host</th>
                                </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="previous-visits">
                                <tr>
                                 <td class="hidden-xs">18-MAR-15</td>
                                   <td>
@@ -171,15 +174,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                                     <a href="#">12:45pm</a>
                                   </td>
                                   <td class="hidden-xs">Office furniture purchase</td>
-                               </tr>
-                               <tr>
-                                  <td class="hidden-xs">12-FEB-15</td>
-                                  <td>
-                                    <a href="#">12:45pm</a>
-                                    <br />
-                                    <a href="#">12:45pm</a>
-                                  </td>
-                                  <td class="hidden-xs">Company Anual Dinner Catering</td>
                                </tr>
                             </tbody>
                             </table>
@@ -265,72 +259,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
               <div class="portlet-body" id="chats">
                  <div class="" style="position: relative; overflow-y: scroll; width: auto; height: 300px;"><div>
                     <ul class="chats">
-                       <li class="in">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar1.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Bob Nilson</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, 
-                             </span>
-                          </div>
-                       </li>
-                       <li class="in">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar2.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Lisa Wong</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, 
-                             </span>
-                          </div>
-                       </li>
-                       <li class="out">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar1.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Bob Nilson</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                             </span>
-                          </div>
-                       </li>
-                       <li class="in">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar3.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Richard Doe</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                             </span>
-                          </div>
-                       </li>
-                       <li class="in">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar3.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Richard Doe</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                             </span>
-                          </div>
-                       </li>
-                       <li class="out">
-                          <img class="avatar img-responsive" alt="" src="assets/img/avatar1.jpg">
-                          <div class="message">
-                             <span class="arrow"></span>
-                             <a href="#" class="name">Bob Nilson</a>
-                             <span class="datetime">at Jul 25, 2012 11:09</span>
-                             <span class="body">
-                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                             </span>
-                          </div>
-                       </li>
+                       
                     </ul>
                  </div>
                  </div>
@@ -398,6 +327,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
        $('body').pSignIn.submit({
          form: $('form[name="sign-in-form"]'),
          back_button: $('#back-to-signin'),
+         recent_activity: $('#chats').find('.chats'),
        });
     });
   </script>

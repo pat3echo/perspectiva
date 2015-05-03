@@ -5,6 +5,7 @@
             var settings = $.extend({
                 form : $('form[name="sign-in-form"]'),
                 back_button : $('#back-to-signin'),
+                recent_activity: $('#chats').find('.chats'),
             }, options );
             
             settings.form.on('submit', function(e){
@@ -21,6 +22,7 @@
             });
             
             $.fn.cProcessForm.handleSubmission( settings.form );
+            $.fn.cProcessForm.populateRecentActivities( settings.recent_activity );
         }
     }
 }(jQuery));

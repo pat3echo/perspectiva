@@ -560,11 +560,87 @@
             return $err->error();
         }
         
-        function _authenticate_visitor(){
+        private function _authenticate_visitor(){
             $return = array();
             
+            if( ! ( isset( $_POST['pass_code'] ) && $_POST['pass_code'] ) ){
+                //CHECK FOR EMPLOYEE PASS CODE
+                $err_code = 000021;
+                $err = new cError($err_code);
+                $err->action_to_perform = 'notify';
+                
+                $err->class_that_triggered_error = 'c'.ucfirst($this->table_name).'.php';
+                $err->method_in_class_that_triggered_error = $this->class_settings['action_to_perform'];
+                $err->additional_details_of_error = 'Invalid Pass Code<br /><br />ERROR CODE: '.convert_table_name_to_code( $this->table_name .'_'. $this->class_settings['action_to_perform'] );
+                return $err->error();
+            }
+            
+            if( strlen( $_POST['pass_code'] ) == 5 ){
+                //CHECK FOR EMPLOYEE PASS CODE
+                $users = new cUsers();
+                $users->class_settings = $this->class_settings;
+                $users->class_settings[ 'action_to_perform' ] = 'authenticate_employee';
+                $users->class_settings['passcode'] = $_POST['pass_code'];
+                return $users->users();
+            }
+            
+            //GET ID FROM AUTHENTICATION CODE
             $this->class_settings['current_record_id'] = '7245987470';
+            $this->class_settings['visit_schedule_id'] = $this->class_settings['current_record_id'];
             $return['visitor_data'] = $this->_get_visit_schedule();
+            
+            //LOG ACTIVITY
+            $entry_exit_log = new cEntry_exit_log();
+			$entry_exit_log->class_settings = $this->class_settings;
+			$entry_exit_log->class_settings[ 'action_to_perform' ] = 'log_visitor_entry_or_exit';
+            
+            //$return['visitor_data']
+            $log = $entry_exit_log->entry_exit_log();
+            
+            if( isset( $log['visit_schedule_id'] ) && $log['visit_schedule_id'] == $this->class_settings['current_record_id'] ){
+                switch( $log['entry_or_exit'] ){
+                case 'entry':
+                    $return['visitor_data']['entry_time'] = date( "h:i:sa" , doubleval( $log['time'] ) );
+                    $return['visitor_data']['exit_time'] = '-';
+                    $return['visitor_data']['entry'] = 'in';
+                break;
+                default:
+                    $return['visitor_data']['entry_time'] = date( "h:i:sa" , doubleval( $log['previous_time'] ) );
+                    $return['visitor_data']['exit_time'] = date( "h:i:sa" , doubleval( $log['time'] ) );
+                    $return['visitor_data']['entry'] = 'out';
+                break;
+                }
+                $return['visitor_data']['date_time'] = date( "M d, Y h:ia" , doubleval( $log['time'] ) );
+                
+                $this->class_settings['current_schedule_email'] = $return['visitor_data']['email'];
+                
+                $previous_visits_ids = $this->_get_visitor_previous_visit_schedule();
+                if( is_array( $previous_visits_ids ) && ! empty( $previous_visits_ids ) ){
+                    
+                    $entry_exit_log->class_settings[ 'previous_visit_schedule_id' ] = $previous_visits_ids;
+                    $entry_exit_log->class_settings[ 'action_to_perform' ] = 'get_visitor_previous_visits';
+                    $return['visitor_data'][ 'previous_visits' ] = $entry_exit_log->entry_exit_log();
+                    
+                }
+            }else{
+                return $log;
+            }
+            
+            $return['visitor_data']['check_sum'] = md5( json_encode( $return['visitor_data'] ) );
+            //log data for push notification
+            $settings = array(
+                'cache_key' => 'signin-push-notifications',
+                //'permanent' => true,
+            );
+            $not = get_cache_for_special_values( $settings );
+            if( ! is_array( $not ) )$not = array();
+            $not[] = $return['visitor_data'];
+            $settings = array(
+                'cache_key' => 'signin-push-notifications',
+                'cache_values' => $not,
+                //'permanent' => true,
+            );
+            set_cache_for_special_values( $settings );
             
             $return['status'] = 'authenticated-visitor';
             
@@ -579,7 +655,30 @@
             $err->additional_details_of_error = 'Sorry, the visit could not be cancelled due to an internal error<br /><br />ERROR CODE: '.convert_table_name_to_code( $this->table_name ).$err_code;
             return $err->error();
             
-            return $return;
+        }
+        
+        private function _get_visitor_previous_visit_schedule(){
+            if( isset( $this->class_settings['current_schedule_email'] ) && $this->class_settings['current_schedule_email'] ){
+                $query = "SELECT `id` FROM `" . $this->class_settings['database_name'] . "`.`".$this->table_name."` where `record_status`='1' AND `".$this->table_fields['email']."`='".$this->class_settings['current_schedule_email']."' ORDER BY `creation_date` DESC LIMIT 6 ";
+                $query_settings = array(
+                    'database' => $this->class_settings['database_name'] ,
+                    'connect' => $this->class_settings['database_connection'] ,
+                    'query' => $query,
+                    'query_type' => 'SELECT',
+                    'set_memcache' => 1,
+                    'tables' => array( $this->table_name ),
+                );
+                
+                $a = execute_sql_query($query_settings);
+                $data = array();
+                
+                if( is_array( $a ) && ! empty( $a ) ){
+                    foreach( $a as $val ){
+                        $data[] = $val['id'];
+                    }
+                }
+            }
+            return $data;
         }
 	}
 ?>

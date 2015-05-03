@@ -508,28 +508,19 @@
 			),
 			'site_users010' => array(
 				
-				'field_label' => 'Birthday',
-				'form_field' => 'date-5',
+				'field_label' => 'Department',
+				'form_field' => 'select',
 				'required_field' => 'no',
-				
+				//'form_field_options' => 'get_site_users_access_roles',
+                
 				'class' => ' personal-info ',
-				
-				'tooltip' => 'You must be over 18years of age',
-				
-				'default_appearance_in_table_fields' => 'show',
-				
-				'custom_data' => array(
-					'type' => 'birthday',
-					'min-age-limit' => 18,
-					'max-age-limit' => 0,
-				),
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'site_users011' => array(
 				
-				'field_label' => 'Sex',
+				'field_label' => 'Unit',
 				'form_field' => 'select',
 				'required_field' => 'yes',
 				
@@ -542,58 +533,41 @@
 			),
 			'site_users012' => array(
 				
-				'field_label' => 'Nationality',
+				'field_label' => 'Job Role',
 				'form_field' => 'select',
 				'form_field_options' => 'get_countries',
-				
-				'class' => ' contact-info country-select-to-state-field',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'site_users013' => array(
 				
-				'field_label' => 'State / Province',
-				'form_field' => 'text',
-				
-				'class' => ' contact-info state-select-to-city-field',
-				
+				'field_label' => 'Branch Office',
+				'form_field' => 'select',
+				'form_field_options' => 'get_countries',
+                
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'site_users014' => array(
 				
-				'field_label' => 'City',
+				'field_label' => 'REF NO.',
 				'form_field' => 'text',
-				
-				'class' => ' contact-info cities-select-field',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'site_users015' => array(
 				
-				'field_label' => 'Street Address',
+				'field_label' => 'Passcode',
 				'form_field' => 'text',
-				
-				'class' => ' contact-info ',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'site_users016' => array(
 				
-				'field_label' => 'Street Address',
-				'form_field' => 'text',
-				
-				'class' => ' contact-info ',
-				
-				'display_position' => 'display-in-table-row',
-				'serial_number' => '',
-			),
-			'site_users017' => array(
-				
-				'field_label' => 'Postal / Zip Code',
+				'field_label' => 'Assistant',
 				'form_field' => 'text',
 				
 				'class' => ' contact-info ',
@@ -615,26 +589,12 @@
 			),
 			'site_users019' => array(
 				
-				'field_label' => 'Updated Primary Address',
-				'form_field' => 'select',
-				'form_field_options' => 'get_yes_no',
+				'field_label' => 'Push Notification ID',
+				'form_field' => 'textarea-unlimited',
 				
-				'display_position' => 'do-not-display-in-table',
-				'serial_number' => '',
-			),
-			'site_users020' => array(
+				'class' => ' personal-info ',
 				
-				'field_label' => 'Verified Email Address',
-				'form_field' => 'select',
-				'form_field_options' => 'get_yes_no',
-				
-				'display_position' => 'do-not-display-in-table',
-				'serial_number' => '',
-			),
-			'site_users021' => array(
-				
-				'field_label' => 'Functional Email Address',
-				'form_field' => 'email',
+				'acceptable_files_format' => 'jpg:::jpeg:::png:::bmp:::gif:::tiff',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
@@ -668,10 +628,8 @@
 			),
 			'users003' => array(
 				
-				'field_label' => 'Zidoff Merchant ID',
+				'field_label' => 'Other Names',
 				'form_field' => 'text',
-				
-				'default_appearance_in_table_fields' => 'show',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
@@ -748,25 +706,95 @@
 			),
 			'users010' => array(
 				
-				'field_label' => 'Nationality',
+				'field_label' => 'Division',
 				'form_field' => 'select',
-				'form_field_options' => 'get_countries',
-				
+				'required_field' => 'no',
+				'form_field_options' => 'get_divisions',
+                
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'users011' => array(
 				
-				'field_label' => 'City',
-				'form_field' => 'text',
-				
+				'field_label' => 'Department',
+				'form_field' => 'select',
+				'required_field' => 'no',
+				'form_field_options' => 'get_departments',
+                
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',
 			),
 			'users012' => array(
 				
+				'field_label' => 'Unit',
+				'form_field' => 'select',
+				'required_field' => 'yes',
+				
+				'form_field_options' => 'get_units',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users013' => array(
+				
+				'field_label' => 'Job Role',
+				'form_field' => 'select',
+				'form_field_options' => 'get_job_roles',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users014' => array(
+				
+				'field_label' => 'Branch Office',
+				'form_field' => 'select',
+				'form_field_options' => 'get_branch_offices',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users015' => array(
+				
+				'field_label' => 'REF NO.',
+				'form_field' => 'text',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users016' => array(
+				
+				'field_label' => 'Passcode',
+				'form_field' => 'text',
+				'placeholder' => '5 Digit Pass Code',
+				'required_field' => 'yes',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users017' => array(
+				
+				'field_label' => 'Assistant',
+				'form_field' => 'text',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users018' => array(
+				
 				'field_label' => 'Photograph',
 				'form_field' => 'file',
+				
+				'acceptable_files_format' => 'jpg:::jpeg:::png:::bmp:::gif:::tiff',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'users019' => array(
+				
+				'field_label' => 'Push Notification ID',
+				'form_field' => 'textarea-unlimited',
+				
+				'class' => ' personal-info ',
 				
 				'acceptable_files_format' => 'jpg:::jpeg:::png:::bmp:::gif:::tiff',
 				
@@ -1027,6 +1055,241 @@
 		);
 	}
 	
+	function division(){
+		return array(
+			'division001' => array(
+				//dept name
+				'field_label' => 'Division Name',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'division002' => array(
+				//desc
+				'field_label' => 'Description',
+				'form_field' => 'text',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'division003' => array(
+				//head
+				'field_label' => 'Head of Division',
+				'form_field' => 'select',
+				'form_field_options' => 'get_website_pages_width',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'division004' => array(
+				//Assistant
+				'field_label' => 'Assistant Head of Division',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'division005' => array(
+				//secretary
+				'field_label' => 'Secretary',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function departments(){
+		return array(
+			'departments001' => array(
+				//dept name
+				'field_label' => 'Department Name',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'departments002' => array(
+				//desc
+				'field_label' => 'Description',
+				'form_field' => 'text',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'departments003' => array(
+				//head
+				'field_label' => 'Head of Department',
+				'form_field' => 'select',
+				'form_field_options' => 'get_website_pages_width',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'departments004' => array(
+				//Assistant
+				'field_label' => 'Assistant Head of Department',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'departments005' => array(
+				//secretary
+				'field_label' => 'Secretary',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function units(){
+		return array(
+			'units001' => array(
+				//dept name
+				'field_label' => 'Unit Name',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'units002' => array(
+				//desc
+				'field_label' => 'Description',
+				'form_field' => 'text',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'units003' => array(
+				//head
+				'field_label' => 'Head of Unit',
+				'form_field' => 'select',
+				'form_field_options' => 'get_website_pages_width',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'units004' => array(
+				//Assistant
+				'field_label' => 'Assistant Head of Unit',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'units005' => array(
+				//secretary
+				'field_label' => 'Secretary',
+				'form_field' => 'select',
+                'form_field_options' => 'get_website_pages_width',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function job_roles(){
+		return array(
+			'job_roles001' => array(
+				//Job Title
+				'field_label' => 'Job Title',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'job_roles002' => array(
+				//desc
+				'field_label' => 'Description',
+				'form_field' => 'text',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function branch_offices(){
+		return array(
+			'branch_offices001' => array(
+				//Branch Name
+				'field_label' => 'Branch Name',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'branch_offices002' => array(
+				//address
+				'field_label' => 'Street Address',
+				'form_field' => 'text',
+				
+                'default_appearance_in_table_fields' => 'show',
+                
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'branch_offices003' => array(
+				//city
+				'field_label' => 'City',
+				'form_field' => 'text',
+				'required_field' => 'yes',
+                
+                'default_appearance_in_table_fields' => 'show',
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'branch_offices004' => array(
+				//state
+				'field_label' => 'State',
+				'form_field' => 'text',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'branch_offices005' => array(
+				//country
+				'field_label' => 'Country',
+				'form_field' => 'text',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
 	function website_sidebars(){
 		return array(
 			'website_sidebars001' => array(
@@ -1078,6 +1341,112 @@
 				'form_field' => 'number',
 				
 				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function entry_exit_log(){
+		return array(
+			'entry_exit_log001' => array(
+				//visit schedule id
+				'field_label' => ENTRY_EXIT_LOG001,
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				'placeholder' => 'Visit Schedule ID',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'entry_exit_log002' => array(
+				//type = in/out
+				'field_label' => ENTRY_EXIT_LOG002,
+				'form_field' => 'select',
+				'form_field_options' => 'get_entry_exit',
+                
+                'default_appearance_in_table_fields' => 'show',
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'entry_exit_log003' => array(
+				//time
+				'field_label' => ENTRY_EXIT_LOG003,
+				'form_field' => 'date-5',
+                
+                'default_appearance_in_table_fields' => 'show',
+                'required_field' => 'yes',
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'entry_exit_log004' => array(
+				//photograph
+				'field_label' => ENTRY_EXIT_LOG004,
+				'form_field' => 'file',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'entry_exit_log005' => array(
+				//previous time
+				'field_label' => ENTRY_EXIT_LOG005,
+				'form_field' => 'date-5',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+		);
+	}
+	
+	function employee_entry_exit_log(){
+		return array(
+			'employee_entry_exit_log001' => array(
+				//visit schedule id
+				'field_label' => EMPLOYEE_ENTRY_EXIT_LOG001,
+				'form_field' => 'text',
+				'required_field' => 'yes',
+				'placeholder' => 'Visit Schedule ID',
+				
+				'default_appearance_in_table_fields' => 'show',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'employee_entry_exit_log002' => array(
+				//type = in/out
+				'field_label' => EMPLOYEE_ENTRY_EXIT_LOG002,
+				'form_field' => 'select',
+				'form_field_options' => 'get_entry_exit',
+                
+                'default_appearance_in_table_fields' => 'show',
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'employee_entry_exit_log003' => array(
+				//time
+				'field_label' => EMPLOYEE_ENTRY_EXIT_LOG003,
+				'form_field' => 'date-5',
+                
+                'default_appearance_in_table_fields' => 'show',
+                'required_field' => 'yes',
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'employee_entry_exit_log004' => array(
+				//photograph
+				'field_label' => EMPLOYEE_ENTRY_EXIT_LOG004,
+				'form_field' => 'file',
+				
+				'display_position' => 'display-in-table-row',
+				'serial_number' => '',
+			),
+			'employee_entry_exit_log005' => array(
+				//previous time
+				'field_label' => EMPLOYEE_ENTRY_EXIT_LOG005,
+				'form_field' => 'date-5',
 				
 				'display_position' => 'display-in-table-row',
 				'serial_number' => '',

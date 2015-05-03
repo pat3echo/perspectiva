@@ -90,6 +90,13 @@
 			'cResource_library',
 			'cSimple_image',
 			'cVisit_schedule',
+			'cEntry_exit_log',
+			'cEmployee_entry_exit_log',
+			'cDivision',
+			'cDepartments',
+			'cUnits',
+			'cJob_roles',
+			'cBranch_offices',
 		),
 		//PHP File Upload Script
 		'upload' => array(

@@ -25,6 +25,34 @@
 		
 		private $table_name = 'users';
 		
+        private $table_fields = array(
+			'email' => 'users004',
+			'other_names' => 'users003',
+			
+			'firstname' => 'users001',
+			'lastname' => 'users002',
+			
+			'password' => 'users006',
+			'confirmpassword' => 'users007',
+			'oldpassword' => 'users008',
+			
+			'phone_number' => 'users005',
+            
+			'division' => 'users010',
+			'department' => 'users011',
+			'unit' => 'users012',
+			'job_role' => 'users013',
+			'branch_office' => 'users014',
+			'ref_no' => 'users015',
+			'pass_code' => 'users016',
+			'assistant' => 'users017',
+            
+			'photograph' => 'users018',
+			'push_notification_id' => 'users019',
+            
+			'role' => 'users009',
+		);
+        
 		function users(){
 			//INITIALIZE RETURN VALUE
 			$returned_value = '';
@@ -68,6 +96,9 @@
 			case 'get_user_details':
 				$returned_value = $this->_get_user_details();
 			break;
+			case 'authenticate_employee':
+				$returned_value = $this->_authenticate_employee();
+			break;
 			}
 			
 			return $returned_value;
@@ -80,13 +111,8 @@
 			
 			if( ! isset( $this->class_settings['hidden_records'] ) ){
 				$this->class_settings['hidden_records'] = array(
-					'users008' => 1,
-					/*'users010' => 1,
-					'users011' => 1,
-					'users012' => 1,
-					'users013' => 1,
-					'users014' => 1,
-					'users015' => 1,*/
+					$this->table_fields['oldpassword'] => 1,
+					$this->table_fields['push_notification_id'] => 1,
 				);
 			}
 			
@@ -212,6 +238,11 @@
 			$returning_html_data['method_executed'] = $this->class_settings['action_to_perform'];
 			$returning_html_data['status'] = 'saved-form-data';
 			
+            $this->class_settings['user_id'] = $returning_html_data['saved_record_id'];
+            
+            $this->class_settings[ 'do_not_check_cache' ] = 1;
+			$this->_get_user_details();
+            
 			return $returning_html_data;
 		}
 		
@@ -697,5 +728,195 @@
 			}
 		}
 		
+		private function _get_user_details(){
+			$returned_data = array();
+			
+			$cache_key = $this->table_name;
+			
+			if( isset( $this->class_settings['user_id'] ) && $this->class_settings['user_id'] ){
+				$settings = array(
+					'cache_key' => $cache_key . '-' . $this->class_settings['user_id'],
+					'directory_name' => $cache_key,
+					'permanent' => true,
+				);
+				
+				//CHECK WHETHER TO CLEAR CACHE VALUES
+				if( isset( $this->class_settings[ 'clear_cache' ] ) && $this->class_settings[ 'clear_cache' ] ){
+					unset( $this->class_settings[ 'clear_cache' ] );
+					return clear_cache_for_special_values( $settings );
+				}
+				
+				//CHECK WHETHER TO CHECK FOR CACHE VALUES
+				if( ! ( isset( $this->class_settings[ 'do_not_check_cache' ] ) && $this->class_settings[ 'do_not_check_cache' ] ) ){
+					
+					//CHECK IF CACHE IS SET
+					$cached_values = get_cache_for_special_values( $settings );
+					if( $cached_values && is_array( $cached_values ) && ! empty( $cached_values ) ){
+						
+						return $cached_values;
+						
+					}
+					
+				}
+				
+				if( ! isset( $this->class_settings['where'] ) ){
+					$this->class_settings['where'] = " WHERE `id`='".$this->class_settings['user_id']."' ";
+				}
+			}
+			
+			$select = "";
+			
+			foreach( $this->table_fields as $key => $val ){
+				if( $key != 'oldpassword' ){
+					if( $select )$select .= ", `".$val."` as '".$key."'";
+					else $select = "`id`, `".$val."` as '".$key."'";
+				}
+			}
+			
+            if( ! isset( $this->class_settings['where'] ) )$this->class_settings['where'] = '';
+            
+			$query = "SELECT ".$select." FROM `" . $this->class_settings['database_name'] . "`.`".$this->table_name."` ".$this->class_settings['where'];
+			//$query = "SELECT ".$select." FROM `" . $this->class_settings['database_name'] . "`.`".$this->table_name."` ";
+            
+			$query_settings = array(
+				'database' => $this->class_settings['database_name'] ,
+				'connect' => $this->class_settings['database_connection'] ,
+				'query' => $query,
+				'query_type' => 'SELECT',
+				'set_memcache' => 1,
+				'tables' => array( $this->table_name ),
+			);
+			$sql_result = execute_sql_query($query_settings);
+			
+            $id = '';
+            
+			if(isset($sql_result) && is_array($sql_result) && isset($sql_result[0]) ){
+				foreach( $sql_result as $s_val ){
+					$returned_data[ $s_val['id'] ] = $s_val;
+					
+					//Cache Settings
+					$settings = array(
+						'cache_key' => $cache_key.'-'.$s_val['id'],
+						'cache_values' => $s_val,
+						'directory_name' => $cache_key,
+						'permanent' => true,
+					);
+					set_cache_for_special_values( $settings );
+                    
+				}
+			}
+			
+            if( isset( $s_val ) )return $s_val;
+		}
+		
+        private function _authenticate_employee(){
+            $return = array();
+            
+            //employee id from passcode
+            if( ! ( isset( $this->class_settings['passcode'] ) && $this->class_settings['passcode'] ) ){
+                $err_code = 000021;
+                $err = new cError($err_code);
+                $err->action_to_perform = 'notify';
+                
+                $err->class_that_triggered_error = 'c'.ucfirst($this->table_name).'.php';
+                $err->method_in_class_that_triggered_error = $this->class_settings['action_to_perform'];
+                $err->additional_details_of_error = 'Invalid Pass Code<br /><br />ERROR CODE: '.convert_table_name_to_code( $this->table_name . $this->class_settings['action_to_perform'] );
+                return $err->error();
+            }
+            
+            $query = "SELECT `id` FROM `" . $this->class_settings['database_name'] . "`.`".$this->table_name."` where `record_status`='1' AND `".$this->table_fields['pass_code']."` = '".$this->class_settings['passcode']."' ";
+            $query_settings = array(
+                'database' => $this->class_settings['database_name'] ,
+                'connect' => $this->class_settings['database_connection'] ,
+                'query' => $query,
+                'query_type' => 'SELECT',
+                'set_memcache' => 1,
+                'tables' => array( $this->table_name ),
+            );
+            
+            $a = execute_sql_query($query_settings);
+            
+            $entry_exit_log = array();
+            
+            if( isset( $a[0]['id'] ) && $a[0]['id'] ){
+                $this->class_settings['user_id'] = $a[0]['id'];
+                $return['visitor_data'] = $this->_get_user_details();
+                
+                $return['visitor_data']['full_name'] = $return['visitor_data']['firstname'] . ' ' . $return['visitor_data']['lastname'];
+                $return['visitor_data']['street_address'] = get_select_option_value( array( 'id' => $return['visitor_data']['department'], 'function_name' => 'get_departments' ) );
+                
+                $return['visitor_data']['job_role'] = get_select_option_value( array( 'id' => $return['visitor_data']['job_role'], 'function_name' => 'get_job_roles' ) );
+                
+                $return['visitor_data']['name_of_organization'] = $return['visitor_data']['job_role'];
+                
+                $return['visitor_data']['branch_office'] = get_select_option_value( array( 'id' => $return['visitor_data']['branch_office'], 'function_name' => 'get_branch_offices' ) );
+                
+                $this->class_settings['current_record_id'] = $this->class_settings['user_id'];
+                $this->class_settings['visit_schedule_id'] = $this->class_settings['current_record_id'];
+                
+                //LOG ACTIVITY
+                $employee_entry_exit_log = new cEmployee_entry_exit_log();
+                $employee_entry_exit_log->class_settings = $this->class_settings;
+                $employee_entry_exit_log->class_settings[ 'action_to_perform' ] = 'log_visitor_entry_or_exit';
+                
+                //$return['visitor_data']
+                $log = $employee_entry_exit_log->employee_entry_exit_log();
+                
+                if( isset( $log['visit_schedule_id'] ) && $log['visit_schedule_id'] == $this->class_settings['current_record_id'] ){
+                    switch( $log['entry_or_exit'] ){
+                    case 'entry':
+                        $return['visitor_data']['entry_time'] = date( "h:i:sa" , doubleval( $log['time'] ) );
+                        $return['visitor_data']['exit_time'] = '-';
+                        $return['visitor_data']['entry'] = 'in';
+                    break;
+                    default:
+                        $return['visitor_data']['entry_time'] = date( "h:i:sa" , doubleval( $log['previous_time'] ) );
+                        $return['visitor_data']['exit_time'] = date( "h:i:sa" , doubleval( $log['time'] ) );
+                        $return['visitor_data']['entry'] = 'out';
+                    break;
+                    }
+                    $return['visitor_data']['date_time'] = date( "M d, Y h:ia" , doubleval( $log['time'] ) );
+                    $return['visitor_data']['approved_start_date_time'] = date( "d-M-y" , doubleval( $log['time'] ) );
+                    
+                    $this->class_settings['current_schedule_email'] = $return['visitor_data']['email'];
+                    
+                    $previous_visits_ids = $this->_get_employees_previous_visit_schedule();
+                    if( is_array( $previous_visits_ids ) && ! empty( $previous_visits_ids ) ){
+                        $employee_entry_exit_log->class_settings[ 'previous_visit_schedule_id' ] = $previous_visits_ids;
+                        $employee_entry_exit_log->class_settings[ 'action_to_perform' ] = 'get_visitor_previous_visits';
+                        $return['visitor_data'][ 'previous_visits' ] = $employee_entry_exit_log->employee_entry_exit_log();
+                        
+                    }
+                }else{
+                    return $log;
+                }
+                
+                $return['visitor_data']['check_sum'] = md5( json_encode( $return['visitor_data'] ) );
+                //log data for push notification
+                $settings = array(
+                    'cache_key' => 'signin-push-notifications',
+                    //'permanent' => true,
+                );
+                $not = get_cache_for_special_values( $settings );
+                if( ! is_array( $not ) )$not = array();
+                $not[] = $return['visitor_data'];
+                $settings = array(
+                    'cache_key' => 'signin-push-notifications',
+                    'cache_values' => $not,
+                    //'permanent' => true,
+                );
+                set_cache_for_special_values( $settings );
+                
+                $return['status'] = 'authenticated-visitor';
+                
+                return $return;
+            }
+        }
+        
+        private function _get_employees_previous_visit_schedule(){
+            if( isset( $this->class_settings['user_id'] ) && $this->class_settings['user_id'] ){
+                return array( $this->class_settings['user_id'] );
+            }
+        }
 	}
 ?>

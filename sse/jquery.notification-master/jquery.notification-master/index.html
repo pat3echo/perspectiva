@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script type="text/javascript" src="//yandex.st/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.notification.js"></script>
+    </head>
+    <body>
+        <div>Chrome and Safari</div>
+        <div class="b-level"></div>
+        <button class="b-icon">Icon Notification</button>
+        <button class="b-icon-one">Only one Icon Notification</button>
+        <button class="b-string">Just String</button>
+        <button class="b-deferred">jQuery Notification is Deferred</button>
+
+        <script type="text/javascript">
+            $('.b-icon').click(function () {
+                var options = {
+                    iconUrl: '//github.com/favicon.ico',
+                    title: 'Quick One!',
+                    body: 'Message. Auto close in 1 sec... Or close on click',
+                    timeout: 1000, // close notification in 1 sec
+                    onclick: function () {
+                        console.log('Pewpew');
+                    }
+                };
+                var notification = $.notification(options);
+            });
+
+            $('.b-icon-one').click(function () {
+                var options = {
+                    iconUrl: '//github.com/favicon.ico',
+                    title: 'Only one!',
+                    tag: 'notificationReplaceId',
+                    body: Math.random(),
+                    onclick: function () {
+                        console.log('Pewpew');
+                    }
+                };
+
+                $.notification(options);
+            });
+
+            $('.b-string').click(function () {
+                $.notification("Hello from jQuery.notifications!");
+            });
+
+            $('.b-deferred').click(function () {
+                $.notification("Hello from jQuery.notifications!")
+                .then(function (notification) {
+                    console.log('Ok!');
+                    setTimeout(function () {
+                        notification.close();
+                    }, 2000);
+                }, function (error) {
+                    console.error('Rejected with status ' + error);
+                });
+            });
+
+            $('.b-level').text('Notifications are ' + $.notification.permissionLevel());
+        </script>
+    </body>
+</html>

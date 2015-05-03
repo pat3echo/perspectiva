@@ -793,6 +793,7 @@
 								case 'currency':
 								case 'decimal':
 								case 'date-5':
+								case 'date_time':
 								case 'text-file':
 									
 									$input_value_step = 'step="any"';

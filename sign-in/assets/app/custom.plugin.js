@@ -1,6 +1,7 @@
 (function($) {
     $.fn.cProcessForm = {
-        requestURL: 'http://localhost/dev-3/',
+        requestURL: 'http://192.168.1.7/dev-3/',
+        //requestURL: 'http://localhost/dev-3/',
         handleSubmission: function( $form ){
             $form.on('submit', function(e){
                 e.preventDefault();
@@ -196,6 +197,11 @@
                                 authenticated_visitor( data );
                                 return;
                             break;
+                            case 'got-recent-activities':
+                                data.url = $.fn.cProcessForm.requestURL;
+                                got_recent_activities( data );
+                                return;
+                            break;
                             }
                         }
                         
@@ -221,6 +227,17 @@
         },
         ajaxError: function( event, request, settings, ex ){
             
+        },
+        populateRecentActivities: function( $container ){
+            $.fn.cProcessForm.ajax_data = {
+                ajax_data: {},
+                form_method: 'post',
+                ajax_data_type: 'json',
+                ajax_action: 'request_function_output',
+                ajax_container: '',
+                ajax_get_url: '?todo=get_recent_activties&action=entry_exit_log',
+            };
+            $.fn.cProcessForm.ajax_send.call();
         },
         requestRetryCount: 0,
         progress_bar_timer_id: 0,
@@ -323,13 +340,22 @@ function display_popup_notice( settings ){
     $('.successful-pass-code-auth').hide();
 };
 
+var gCheck_sum = '';
+
 function authenticated_visitor( data ){
+    if( data.visitor_data.check_sum )gCheck_sum = data.visitor_data.check_sum;
+    
+    $('.optional-value').hide();
+    
     $('.visitor-value').each(function(){
         if( $(this).attr('data-name') && $(this).attr('data-type') ){
             switch( $(this).attr('data-type') ){
             case 'text':
                 if( data.visitor_data[ $(this).attr('data-name') ] ){
                     $(this).text( data.visitor_data[ $(this).attr('data-name') ] );
+                    if( $(this).parent().hasClass('optional-value') ){
+                        $(this).parent().show();
+                    }
                 }
             break;
             case 'src':
@@ -349,24 +375,158 @@ function authenticated_visitor( data ){
     if( h ){
         $('#chats').find('.chats').prepend( h );
     }
+    
+    if( data && data.visitor_data && data.visitor_data.previous_visits && data.visitor_data.previous_visits.data && Object.getOwnPropertyNames(data.visitor_data.previous_visits.data).length ){
+        var h = '';
+        $.each( data.visitor_data.previous_visits.data , function( key, val ){
+            h += get_previous_visits_html( val );
+        });
+        if( h ){
+            $('tbody#previous-visits').html(h);
+            $('.previous-visits-container').show();
+        }
+    }else{
+        $('.previous-visits-container').hide();
+    }
+};
+
+function got_recent_activities( d ){
+    var h = '';
+    if( d && d.data && Object.getOwnPropertyNames(d.data).length ){
+        
+        $.each( d.data, function( key, val ){
+            h += get_recent_visitors_html( { visitor_data: val, url:d.url } );
+        });
+    }
+    
+    if( h ){
+        $('#chats').find('.chats').html( h );
+    }
 };
 
 function get_recent_visitors_html( d ){
     var data = d.visitor_data;
-    data.whom_to_see = 'Rufai Jalal';
+    
+    var label = 'Host: ';
+    if( ! ( data.whom_to_see ) && data.job_role ){
+        data.whom_to_see = data.job_role;
+        label = 'Job Role: ';
+    }
     //&& data.entry_time
-    if( data.full_name && data.photograph && data.whom_to_see  ){
-        var html = '<li class="in">';
+    if( data.entry && data.date_time && data.full_name && data.photograph && data.whom_to_see  ){
+        var html = '<li class="'+data.entry+'">';
         html += '<img class="avatar img-responsive" alt="" src="' + d.url + 'engine/' + data.photograph + '">';
         html += '<div class="message">';
             html += '<span class="arrow"></span>';
             html += '<a href="#" class="name">'+data.full_name+'</a>';
-            html += '<span class="datetime"> at Jul 25, 2012 11:09</span>';
+            html += '<span class="datetime"> at '+data.date_time+'</span>';
             html += '<span class="body">';
-            html += 'Host: ' + data.whom_to_see;
+            html += label + data.whom_to_see;
             html += '</span>';
           html += '</div>';
        html += '</li>';
        return html;
    }
 };
+
+function get_previous_visits_html( data ){
+    if( data.entry && data.date && data.time && data.reason_for_visit && data.whom_to_see  ){
+        var html = '<tr>';
+        html += '<td class="hidden-xs">'+data.date+'</td>';
+        html += '<td><a href="#">'+data.time+'</a> ('+data.entry+')</td>';
+        html += '<td class="hidden-xs">Host: '+data.whom_to_see+'<br />'+data.reason_for_visit+'</td>';
+        html += '</tr>';
+       return html;
+   }
+};
+
+if (!window.DOMTokenList) {
+  Element.prototype.containsClass = function(name) {
+    return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(this.className);
+  };
+
+  Element.prototype.addClass = function(name) {
+    if (!this.containsClass(name)) {
+      var c = this.className;
+      this.className = c ? [c, name].join(' ') : name;
+    }
+  };
+
+  Element.prototype.removeClass = function(name) {
+    if (this.containsClass(name)) {
+      var c = this.className;
+      this.className = c.replace(
+          new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), "");
+    }
+  };
+}
+
+// sse.php sends messages with text/event-stream mimetype.
+var source = new EventSource('../engine/php/sse.php');
+
+function closeConnection() {
+  source.close();
+  updateConnectionStatus('Disconnected', false);
+}
+
+function updateConnectionStatus(msg, connected) {
+  var el = document.querySelector('#connection');
+  if (connected) {
+    if (el.classList) {
+      el.classList.add('connected');
+      el.classList.remove('disconnected');
+    } else {
+      el.addClass('connected');
+      el.removeClass('disconnected');
+    }
+  } else {
+    if (el.classList) {
+      el.classList.remove('connected');
+      el.classList.add('disconnected');
+    } else {
+      el.removeClass('connected');
+      el.addClass('disconnected');
+    }
+  }
+  el.innerHTML = msg + '<div></div>';
+}
+
+source.addEventListener('message', function(event) {
+  if( event.data ){
+  var data = JSON.parse(event.data);
+
+  var options = {
+        iconUrl: data.pic,
+        title: data.title,
+        body: data.msg+"\n"+data.host,
+        timeout: 5000, // close notification in 1 sec
+        onclick: function () {
+            //console.log('Pewpew');
+        }
+    };
+    var notification = $.notification(options)
+    .then(function (notification) {
+        //window.focus();
+        //console.log('Ok!');
+    }, function (error) {
+        console.error('Rejected with status ' + error);
+    });
+    console.log('receive', data.check_sum );
+    console.log('receiveG', gCheck_sum );
+    
+    if( data.check_sum && gCheck_sum != data.check_sum )
+        authenticated_visitor( {visitor_data: data, url:$.fn.cProcessForm.requestURL } );
+        
+    $('.b-level').text('Notifications are ' + $.notification.permissionLevel());
+  }
+}, false);
+
+source.addEventListener('open', function(event) {
+  updateConnectionStatus('Connected', true);
+}, false);
+
+source.addEventListener('error', function(event) {
+  if (event.eventPhase == 2) { //EventSource.CLOSED
+    updateConnectionStatus('Disconnected', false);
+  }
+}, false);

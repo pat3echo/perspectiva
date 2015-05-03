@@ -62,7 +62,7 @@ body {
 
 .page-lock img.page-lock-img {
 	width: 100px;
-	height: auto;
+	height: 100px;
     border-radius:50%;
 }
 .center-align{

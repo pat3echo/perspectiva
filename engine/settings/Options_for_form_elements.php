@@ -264,6 +264,14 @@
 		);
 	}
     
+	function get_entry_exit(){
+		//RETURN ARRAY OF GENERAL SETTINGS VALUES
+		return array(
+			'entry' => 'Entry',
+			'exit' => 'Exit',
+		);
+	}
+    
 	function get_form_field_types(){
 		//RETURN ARRAY OF GENERAL SETTINGS VALUES
 		return array(
@@ -590,26 +598,6 @@
 		}
 	}
 	
-	//Returns an array of pay on delivery cities
-	function get_pay_on_delivery_cities(){
-        $cache_key = 'pay_on_delivery';
-        return get_from_cached( array(
-            'cache_key' => $cache_key.'-'.$cache_key,
-            'directory_name' => $cache_key,
-        ) );
-	}
-	
-	//Returns an array of pay on delivery cities
-	function get_pay_on_delivery_data( $settings = array() ){
-        if( isset( $settings[ 'country' ] ) && $settings[ 'country' ] && isset( $settings[ 'merchant_id' ] ) && $settings[ 'merchant_id' ] ){
-            $cache_key = 'pay_on_delivery';
-            return get_from_cached( array(
-                'cache_key' => $cache_key.'-'.$settings[ 'merchant_id' ].'-'.$settings[ 'country' ],
-                'directory_name' => $cache_key,
-            ) );
-        }
-	}
-	
 	//Returns an array of all countries
 	function get_countries_data(){
         $cache_key = 'country_list';
@@ -860,6 +848,78 @@
 		}
 	}
 	
+	function get_users( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'users';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+	
+	function get_entry_exit_log_last_state( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'entry_exit_log-currentstate';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+	
+	function get_entry_exit_log_details( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'entry_exit_log';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+    
+	function get_employee_entry_exit_log_last_state( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'employee_entry_exit_log-currentstate';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+	
+	function get_employee_entry_exit_log_details( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'employee_entry_exit_log';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+	
+	function get_visit_schedule_details( $settings = array() ){
+		if( isset( $settings['id'] ) && $settings['id'] ){
+			$cache_key = 'visit_schedule';
+			$cached_values = get_from_cached( array(
+				'cache_key' => $cache_key . '-' . $settings['id'],
+				'directory_name' => $cache_key,
+			) );
+			
+            return $cached_values;
+		}
+	}
+	
     function enquiry_processing_status(){
         //RETURN ARRAY OF ORDER STATUS
         return array(
@@ -894,6 +954,46 @@
         return get_from_cached( array(
             'cache_key' => $cache_key,
         ) );
+	}
+	
+	function get_divisions(){
+		$cache_key = 'division';
+        $return = get_from_cached( array(
+            'cache_key' => $cache_key,
+        ) );
+        if( isset( $return['all'] ) )return $return['all'];
+	}
+    
+	function get_job_roles(){
+		$cache_key = 'job_roles';
+        $return = get_from_cached( array(
+            'cache_key' => $cache_key,
+        ) );
+        if( isset( $return['all'] ) )return $return['all'];
+	}
+	
+	function get_branch_offices(){
+		$cache_key = 'branch_offices';
+        $return = get_from_cached( array(
+            'cache_key' => $cache_key,
+        ) );
+        if( isset( $return['all'] ) )return $return['all'];
+	}
+	
+	function get_units(){
+		$cache_key = 'units';
+        $return = get_from_cached( array(
+            'cache_key' => $cache_key,
+        ) );
+        if( isset( $return['all'] ) )return $return['all'];
+	}
+	
+	function get_departments(){
+		$cache_key = 'departments';
+        $return = get_from_cached( array(
+            'cache_key' => $cache_key,
+        ) );
+        if( isset( $return['all'] ) )return $return['all'];
 	}
 	
     function get_station_nigeria(){
